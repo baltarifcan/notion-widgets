@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Percentage Widget</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100lvh;
+        margin: 0;
+        background-color: #3a3a3a;
+      }
+      .percentage-parent {
+        width: 90%;
+        height: 100px;
+      }
+      .percentage-outer-container {
+        height: 100%;
+        background-color: #f3f3f3;
+        border-radius: 25px;
+        padding: 15px;
+      }
+      .percentage-inner-container {
+        width: 50%;
+        height: 100%;
+        background-color: #ff004c;
+        border-radius: 15px;
+      }
+      .percentage-text {
+        position: absolute;
+        text-align: center;
+        line-height: 100px;
+        color: #f3f3f3;
+        text-shadow: 1px 1px 5px #000000;
+        left: 0;
+        right: 0;
+        font-size: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="percentage-parent">
+      <div class="percentage-outer-container">
+        <div class="percentage-inner-container">
+          <div class="percentage-text">50%</div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const backgroundColorParam = urlParams.get("bg");
+    if (backgroundColorParam) {
+      console.log(backgroundColorParam);
+      document.body.style.backgroundColor = "#" + backgroundColorParam;
+    }
+    const outerColor = urlParams.get("outer");
+    if (outerColor) {
+      document.querySelector(
+        ".percentage-outer-container"
+      ).style.backgroundColor = "#" + outerColor;
+    }
+    const innerColor = urlParams.get("inner");
+    if (innerColor) {
+      document.querySelector(
+        ".percentage-inner-container"
+      ).style.backgroundColor = "#" + innerColor;
+    }
+
+    const fontStyle = urlParams.get("font");
+    if (fontStyle) {
+      document.querySelector(".percentage-text").style.fontFamily = fontStyle;
+    }
+
+    const fontSize = urlParams.get("size");
+    if (fontSize) {
+      document.querySelector(".percentage-text").style.fontSize =
+        fontSize + "px";
+    }
+
+    const height = urlParams.get("height");
+    if (height) {
+      document.querySelector(".percentage-parent").style.height = height + "px";
+      document.querySelector(".percentage-text").style.lineHeight =
+        height + "px";
+    }
+
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff =
+      now -
+      start +
+      (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const day = Math.floor(diff / oneDay);
+    const daysInYear = now.getFullYear() % 4 === 0 ? 366 : 365;
+
+    const percentage = (day / daysInYear) * 100;
+
+    document.querySelector(".percentage-inner-container").style.width =
+      percentage + "%";
+    document.querySelector(".percentage-text").textContent =
+      percentage.toFixed(2) + "%";
+  </script>
+</html>
